@@ -14,26 +14,23 @@ namespace winamptospotifyforms
         {
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            using var log = new LoggerConfiguration()
-                                .WriteTo.File("./logs.txt")
-                                .CreateLogger();
-            log.Information("Done setting up serilog!");
-            var host = CreateHostBuilder(log).Build();
+            Application.SetCompatibleTextRenderingDefault(false);            
+            var host = CreateHostBuilder().Build();         
             ServiceProvider = host.Services;
             Application.Run(ServiceProvider.GetRequiredService<WinampToSpotify>());
         }
 
         public static IServiceProvider ServiceProvider { get; private set; }
-        static IHostBuilder CreateHostBuilder(ILogger logger)
+        static IHostBuilder CreateHostBuilder()
         {
-            
             return Host.CreateDefaultBuilder()
+                .UseSerilog((hostContext, services, configuration) => {
+                    configuration.WriteTo.File("./logs.txt");
+                })
                 .ConfigureServices((context, services) =>
                 {
                     services.AddTransient<ISpotifyService, SpotifyService>();
-                    services.AddTransient<WinampToSpotify>();
-                    services.AddSingleton(logger);
+                    services.AddTransient<WinampToSpotify>();                   
                 });
         }
     }

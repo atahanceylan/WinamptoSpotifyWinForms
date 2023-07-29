@@ -30,7 +30,7 @@ namespace winamptospotifyforms.Service
                 {
                     var fileName = Path.GetFileNameWithoutExtension(file.Name);
                     processFolder.IsArtistExistInFolderPath = fileName.ToLower().Contains(processFolder.ArtistAlbumName.ToLower());
-                    if (processFolder.ArtistAlbumName.ToLower().All(x => char.IsLetter(x)))
+                    if (!processFolder.ArtistAlbumName.ToLower().Any(x => char.IsNumber(x)))
                     {
                         fileName = new string(fileName.Where(Char.IsLetter).ToArray());
                     }
