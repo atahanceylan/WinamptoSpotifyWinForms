@@ -105,13 +105,14 @@ namespace winamptospotifyforms.Service
         public async Task<Dictionary<string, string>> GetTrackUri(ProcessFolder processFolder)
         {
             Dictionary<string, string> trackInfoDict = new Dictionary<string, string>();
-            string artist = processFolder.FilePath.Split('\\')[processFolder.FilePath.Split('\\').Length - 1].Split(' ')[0];
+            string artistOrAlbumName = processFolder.FilePath.Split('\\')[processFolder.FilePath.Split('\\').Length - 1];
+            processFolder.ArtistAlbumName = artistOrAlbumName;
             List<string> fileNamesList = new FolderService(logger).GetMp3FileNames(processFolder);
 
             if (fileNamesList.Count > 0)
             {
                 foreach (var qb in from item in fileNamesList
-                                   let qb = BuildQueryForTrackAddition(artist, item)
+                                   let qb = BuildQueryForTrackAddition(artistOrAlbumName, item)
                                    select qb)
                 {
                     using (HttpClient client = new HttpClient())
@@ -150,10 +151,6 @@ namespace winamptospotifyforms.Service
             return queryParameters.BuildQueryString();
         }
 
-        /// <summary>Process selected folder.</summary>
-        /// <param name="folderPath"></param>
-        /// <param name="accessToken"></param>
-        /// <returns></returns>
         public async Task<PlaylistSummary> ProcessFolder(string folderPath, string accessToken)
         {
             if (string.IsNullOrWhiteSpace(folderPath)) throw new ArgumentNullException(nameof(folderPath));

@@ -1,12 +1,10 @@
-﻿
-using Serilog;
+﻿using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Windows.Forms;
+using System.Text.RegularExpressions;
 using winamptospotifyforms.Models;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace winamptospotifyforms.Service
 {
@@ -29,14 +27,7 @@ namespace winamptospotifyforms.Service
                 foreach (var file in filesInfoArray)
                 {
                     var fileName = Path.GetFileNameWithoutExtension(file.Name);
-                    processFolder.IsArtistExistInFolderPath = fileName.ToLower().Contains(processFolder.ArtistAlbumName.ToLower());
-                    if (!processFolder.ArtistAlbumName.ToLower().Any(x => char.IsNumber(x)))
-                    {
-                        fileName = new string(fileName.Where(Char.IsLetter).ToArray());
-                    }
-                    fileName = fileName.ToLower().Replace(processFolder.ArtistAlbumName.ToLower(), "", StringComparison.InvariantCultureIgnoreCase);
-                    fileName = fileName.TrimStart();
-                    fileName = fileName.TrimEnd();
+                    fileName = NormalizeFileName(processFolder.ArtistAlbumName, fileName);
                     fileNames.Add(fileName);
                 }
             }
@@ -46,6 +37,17 @@ namespace winamptospotifyforms.Service
                 throw new FileNotFoundException($"Cannot find any file in {processFolder.FilePath}");
             }
             return fileNames;
+        }
+
+        private static string NormalizeFileName(string artistName, string fileName)
+        {
+            Regex reg = new Regex(@"[^\p{L}\p{N} ]");
+            fileName = reg.Replace(fileName, String.Empty);
+            fileName = Regex.Replace(fileName, @"[0-9]+", "");
+            fileName = fileName.Replace(artistName, "");
+            fileName = fileName.TrimStart();
+            fileName = fileName.TrimEnd();
+            return fileName;
         }
     }
 }
