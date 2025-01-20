@@ -6,10 +6,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Windows.Forms;
-using winamptospotifyforms.Models;
-using winamptospotifyforms.Service;
+using WinamptoSpotifyWinForms.Models;
+using WinamptoSpotifyWinForms.Service;
 
-namespace winamptospotifyforms
+namespace WinamptoSpotifyWinForms
 {
     public partial class WinampToSpotify : Form
     {        

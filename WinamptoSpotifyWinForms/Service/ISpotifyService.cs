@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
-using winamptospotifyforms.Models;
+using WinamptoSpotifyWinForms.Models;
 
-namespace winamptospotifyforms.Service
+namespace WinamptoSpotifyWinForms.Service
 {
     public interface ISpotifyService
     {

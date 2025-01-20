@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace winamptospotifyforms.Models
+namespace WinamptoSpotifyWinForms.Models
 {
     public static class SpotifyApiResponse
     {

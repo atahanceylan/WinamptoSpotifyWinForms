@@ -3,9 +3,9 @@ using Microsoft.Extensions.Hosting;
 using Serilog;
 using System;
 using System.Windows.Forms;
-using winamptospotifyforms.Service;
+using WinamptoSpotifyWinForms.Service;
 
-namespace winamptospotifyforms
+namespace WinamptoSpotifyWinForms
 {
     static class Program
     {

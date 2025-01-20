@@ -7,12 +7,12 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Threading.Tasks;
-using winamptospotifyforms.Models;
+using WinamptoSpotifyWinForms.Models;
 using ConfigurationManager = System.Configuration.ConfigurationManager;
-using winamptospotifyforms.Extensions;
+using WinamptoSpotifyWinForms.Extensions;
 using System.Collections.Specialized;
 
-namespace winamptospotifyforms.Service
+namespace WinamptoSpotifyWinForms.Service
 {
     public class SpotifyService : ISpotifyService
     {

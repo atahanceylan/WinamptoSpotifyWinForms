@@ -1,4 +1,4 @@
-﻿namespace winamptospotifyforms.Models
+﻿namespace WinamptoSpotifyWinForms.Models
 {
     public class PlaylistSummary
     {

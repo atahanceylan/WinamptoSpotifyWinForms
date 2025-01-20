@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
-using winamptospotifyforms.Models;
+using WinamptoSpotifyWinForms.Models;
 
-namespace winamptospotifyforms.Service
+namespace WinamptoSpotifyWinForms.Service
 {
     public class FolderService
     {

@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace winamptospotifyforms
+namespace WinamptoSpotifyWinForms
 {
     partial class WinampToSpotify
     {

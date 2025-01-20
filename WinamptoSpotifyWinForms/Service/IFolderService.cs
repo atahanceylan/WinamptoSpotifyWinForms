@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using winamptospotifyforms.Models;
+using WinamptoSpotifyWinForms.Models;
 
 namespace WinamptoSpotifyWinForms.Service
 {
