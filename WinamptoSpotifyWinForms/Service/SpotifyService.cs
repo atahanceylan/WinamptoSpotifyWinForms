@@ -1,11 +1,11 @@
-﻿using Newtonsoft.Json;
-using Serilog;
+﻿using Serilog;
 using System;
+using System.Text;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using winamptospotifyforms.Models;
 using ConfigurationManager = System.Configuration.ConfigurationManager;
@@ -47,7 +47,7 @@ namespace winamptospotifyforms.Service
 
                     var result = await client.PostAsync(appSettings["TokenUrl"], formContent);
                     var content = await result.Content.ReadAsStringAsync();
-                    var spotifyAuth = JsonConvert.DeserializeObject<SpotifyApiResponse.AccessToken>(content);
+                    var spotifyAuth = JsonSerializer.Deserialize<SpotifyApiResponse.AccessToken>(content);
                     return spotifyAuth.access_token;
                 }
             }
@@ -67,7 +67,7 @@ namespace winamptospotifyforms.Service
                 name = processFolder.ArtistAlbumName,
                 description = processFolder.ArtistAlbumName
             };
-            var bodyPayload = new StringContent(JsonConvert.SerializeObject(stringPayload), Encoding.UTF8, "application/json");
+            var bodyPayload = new StringContent(JsonSerializer.Serialize(stringPayload), Encoding.UTF8, "application/json");
             try
             {
                 using (HttpClient client = new HttpClient())
@@ -75,7 +75,7 @@ namespace winamptospotifyforms.Service
                     client.DefaultRequestHeaders.Add("Authorization", "Bearer " + processFolder.AccessToken);
                     var result = await client.PostAsync(appSettings["PlaylistBaseUrl"].Replace("{UserId}", appSettings["UserId"]), bodyPayload);
                     var content = await result.Content.ReadAsStringAsync();
-                    var playlist = JsonConvert.DeserializeObject<SpotifyApiResponse.PlayList>(content);
+                    var playlist = JsonSerializer.Deserialize<SpotifyApiResponse.PlayList>(content);
                     playlistId = playlist.id;
                 }
             }
@@ -123,7 +123,7 @@ namespace winamptospotifyforms.Service
                         if (result.IsSuccessStatusCode)
                         {
                             var content = await result.Content.ReadAsStringAsync();
-                            var results = JsonConvert.DeserializeObject<SpotifyApiResponse.RootObject>(content);
+                            var results = JsonSerializer.Deserialize<SpotifyApiResponse.RootObject>(content);
                             var tracks = results.tracks;
                             if (tracks.items.Count > 0)
                             {

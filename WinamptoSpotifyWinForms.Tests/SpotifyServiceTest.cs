@@ -31,3 +31,4 @@ namespace WinamptoSpotifyWinForms.Tests
             Assert.Pass();
         }
     }
+}
