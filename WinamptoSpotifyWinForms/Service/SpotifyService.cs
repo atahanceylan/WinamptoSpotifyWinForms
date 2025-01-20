@@ -11,6 +11,7 @@ using WinamptoSpotifyWinForms.Models;
 using ConfigurationManager = System.Configuration.ConfigurationManager;
 using WinamptoSpotifyWinForms.Extensions;
 using System.Collections.Specialized;
+using System.IO;
 
 namespace WinamptoSpotifyWinForms.Service
 {
@@ -105,7 +106,7 @@ namespace WinamptoSpotifyWinForms.Service
         public async Task<Dictionary<string, string>> GetTrackUri(ProcessFolder processFolder)
         {
             Dictionary<string, string> trackInfoDict = new Dictionary<string, string>();
-            string artistOrAlbumName = processFolder.FilePath.Split('\\')[processFolder.FilePath.Split('\\').Length - 1];
+            string artistOrAlbumName = processFolder.FilePath.Split(Path.DirectorySeparatorChar)[processFolder.FilePath.Split(Path.DirectorySeparatorChar).Length - 1];
             processFolder.ArtistAlbumName = artistOrAlbumName;
             List<string> fileNamesList = new FolderService(logger).GetMp3FileNames(processFolder);
 
@@ -157,7 +158,7 @@ namespace WinamptoSpotifyWinForms.Service
             if (string.IsNullOrWhiteSpace(accessToken)) throw new ArgumentNullException(nameof(accessToken));
             try
             {
-                string artistAndOrAlbum = folderPath.Split('\\').Select(s => s).Last();
+                string artistAndOrAlbum = folderPath.Split(Path.DirectorySeparatorChar).Select(s => s).Last();
                 ProcessFolder processFolder = new ProcessFolder(accessToken, folderPath, artistAndOrAlbum);
                 processFolder.PlaylistId = await CreatePlayList(processFolder);
                 processFolder.TracksInfo = await GetTrackUriAndNames(processFolder);
