@@ -156,6 +156,15 @@ namespace WinamptoSpotifyWinForms.Service
         {
             if (string.IsNullOrWhiteSpace(folderPath)) throw new ArgumentNullException(nameof(folderPath));
             if (string.IsNullOrWhiteSpace(accessToken)) throw new ArgumentNullException(nameof(accessToken));
+            if (Directory.Exists(folderPath))
+            {
+                string[] files = Directory.GetFiles(folderPath, "*.mp3");
+                if (files.Length <= 0)
+                {
+                    logger.Error($"{folderPath} don't have any mp3 file");
+                    throw new ArgumentException($"{folderPath} don't have any mp3 file");
+                }
+            }
             try
             {
                 string artistAndOrAlbum = folderPath.Split(Path.DirectorySeparatorChar).Select(s => s).Last();
